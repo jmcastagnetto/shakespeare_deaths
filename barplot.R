@@ -3,7 +3,7 @@ library(cowplot)
 library(magick)
 library(showtext)
 
-font_add_google(name = "UnifrakturMaguntia", family = "uni", regular.wt = )
+font_add_google(name = "UnifrakturMaguntia", family = "uni")
 font_add_google(name = "Roboto", family = "roboto")
 font_add_google(name = "Cousine", family = "cousine")
 
@@ -76,16 +76,16 @@ barplot <- ggplot(df, aes(x = cause_of_death, y = incidence,
     x = 3,
     y = 30,
     hjust = 1,
-    size = 3.5,
+    size = 3,
     family = "cousine"
   ) +
   annotate(
     geom = "text",
-    label = "@jmcastagnetto, Jesus M. Castagnetto, 2019-12-06\nCode: ",
+    label = "@jmcastagnetto, Jesus M. Castagnetto, 2019-12-06\nCode: https://github.com/jmcastagnetto/shakespeare_deaths",
     x = 2,
     y = 30,
     hjust = 1,
-    size = 3.5,
+    size = 3,
     family = "cousine"
   ) +
   scale_fill_viridis_d() +
@@ -107,4 +107,15 @@ ggdraw() +
 
 ggsave(
   filename = here::here("20191206-deaths-shakespeare-plays.png")
+)
+
+# crop the image to remove extra space on both sides
+img <- here::here("20191206-deaths-shakespeare-plays.png") %>%
+  image_read() %>%
+  image_crop(geometry = "898x942+190+0")
+
+image_write(
+  img,
+  path = here::here("20191206-deaths-shakespeare-plays.png"),
+  format = "png"
 )
